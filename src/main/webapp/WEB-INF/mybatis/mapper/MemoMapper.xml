@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Memo">
+
+	<resultMap type="MyMemo" id="MyMemo">
+		<result property="tmh_CODE" column="MMH_CODE"/>
+		<result property="tmh_MEMAIL" column="MMH_MEMAIL"/>
+		<result property="tmh_TITLE" column="MMH_TITLE"/>
+		<result property="tmh_CONTENT" column="MMH_CONTENT"/>
+		<result property="tmm_CODE" column="MM_CODE"/>
+		<result property="tmm_MEMAIL" column="MM_MEMAIL"/>
+		<result property="tmm_CONTENT" column="MM_CONTENT"/>
+		<result property="tmm_SINCE" column="MM_SINCE"/>
+	</resultMap>
+	
+	<resultMap type="TeamMemo" id="TeamMemo">
+		<result property="tmh_CODE" column="TMH_CODE"/>
+		<result property="tmh_MEMAIL" column="TMH_MEMAIL"/>
+		<result property="tmh_TITLE" column="TMH_TITLE"/>
+		<result property="tmh_CONTENT" column="TMH_CONTENT"/>
+		<result property="tmm_CODE" column="TMM_CODE"/>
+		<result property="tmm_MEMAIL" column="TMM_MEMAIL"/>
+		<result property="tmm_CONTENT" column="TMM_CONTENT"/>
+		<result property="tmm_SINCE" column="TMM_SINCE"/>
+		<result property="tmh_TCODE" column="TMH_TCODE"/>
+	</resultMap>
+		
+	<!-- 개인이면 팀코드에 이메일이 저장되어 있음 -->
+	<select id="getMemoList" resultMap="MyMemo" parameterType="MyMemo">
+		select * from MyMemoInfoView where MMH_MEMAIL = #{tmh_TCODE}
+	</select>
+															
+	<select id="getTeamMemoList" resultMap="TeamMemo" parameterType="TeamMemo">
+		select * from TeamMemoInfoView where TMH_TCODE = #{tmh_TCODE} 
+	</select>
+	
+	<select id="getMemoHamList" resultMap="MyMemo" parameterType="MyMemo">
+		select * from MyMemoInfoView where MMH_CODE = '${tmh_CODE}'
+	</select>
+	
+	<select id="getTeamMemoHamList" resultMap="TeamMemo" parameterType="TeamMemo">
+		select * from TeamMemoInfoView where TMH_CODE = #{tmh_CODE}
+	</select>	
+	
+	<insert id="memoInesrt" parameterType="MyMemo">
+		INSERT INTO MYMEMO(MM_MMHCODE, MM_MEMAIL, MM_CONTENT) VALUES(#{tmh_CODE},#{tmm_MEMAIL},#{tmm_CONTENT})
+	</insert>
+	<insert id="memoTeamInesrt" parameterType="MyMemo">
+		INSERT INTO TEAMMEMO(TMM_TMHCODE, TMM_MEMAIL, TMM_CONTENT) VALUES(#{tmh_CODE},#{tmm_MEMAIL},#{tmm_CONTENT})
+	</insert>
+	<!-- 개인이면 팀코드에 이메일이 저장되어 있음 -->
+	<select id="getMemo" resultMap="MyMemo" parameterType="MyMemo">
+		select * from MyMemoInfoView where MM_CODE = #{tmm_CODE}
+	</select>
+	
+	<select id="getTeamMemo" resultMap="TeamMemo" parameterType="TeamMemo">
+		select * from TeamMemoInfoView where TMM_CODE = #{tmm_CODE} 
+	</select>	
+	<update id="memoUpdate" parameterType="MyMemo">
+		UPDATE MYMEMO SET MM_CONTENT=#{tmm_CONTENT} where  MM_CODE=#{tmm_CODE}  and MM_MEMAIL=#{tmm_MEMAIL}
+	</update>
+	<update id="memoTeamUpdate" parameterType="TeamMemo">
+		UPDATE MYMEMO SET TMM_CONTENT=#{tmm_CONTENT} where TMM_CODE=#{tmm_CODE} and TMM_MEMAIL=#{tmm_MEMAIL}
+	</update>
+	<delete id="memoDelete" parameterType="MyMemo">
+		DELETE FROM MYMEMO WHERE MM_CODE=#{tmm_CODE} and MM_MEMAIL=#{tmm_MEMAIL}
+	</delete>
+	<delete id="memoTeamDelete" parameterType="TeamMemo">
+		DELETE FROM TEAMMEMO WHERE TMM_CODE=#{tmm_CODE} and TMM_MEMAIL=#{tmm_MEMAIL}
+	</delete>
+	
+</mapper>

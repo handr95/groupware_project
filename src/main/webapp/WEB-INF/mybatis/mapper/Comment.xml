@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="Comments">	
+	<resultMap type="MyComment_BO" id="MyComment_BO">	<!-- 보드 -->
+		<result property="cm_Code" column="MC_CODE"/>	<!-- 코멘트코드 -->
+		<result property="m_Menu" column="MC_TYPECODE"/><!-- 해당 글 코드 -->
+		<result property="cm_Since" column="MC_SINCE"/>	<!-- 작성일 -->
+		<result property="cm_Comment" column="MC_CONTENT"/><!-- 내용 -->
+		<result property="cm_Share" column="MC_CLTYPE"/><!-- 공개비공개 -->
+		<result property="cm_Witter" column="MC_MEMAIL"/><!--  -->
+	</resultMap>	
+	<resultMap type="TeamComment_BO" id="TeamComment_BO"><!-- 보드 -->
+		<result property="cm_Code" column="TC_CODE"/>	<!-- 코멘트코드 -->
+		<result property="m_Menu" column="TC_TYPECODE"/><!-- 해당 글 코드 -->
+		<result property="cm_Since" column="TC_SINCE"/>	<!-- 작성일 -->
+		<result property="cm_Comment" column="TC_CONTENT"/><!-- 내용 -->
+		<result property="cm_Share" column="TC_CLTYPE"/><!-- 공개비공개 -->
+		<result property="cm_Witter" column="TC_MEMAIL"/><!--  -->
+	</resultMap>
+	<resultMap type="Comment_PJ" id="Comment_PJ">	<!-- 프로젝트 -->
+		<result property="cm_Code" column="TC_CODE"/>	<!-- 코멘트코드 -->
+		<result property="m_Menu" column="TC_TYPECODE"/><!-- 해당 글 코드 -->
+		<result property="cm_Since" column="TC_SINCE"/>	<!-- 작성일 -->
+		<result property="cm_Comment" column="TC_CONTENT"/><!-- 내용 -->
+		<result property="cm_Share" column="TC_CLTYPE"/><!-- 공개비공개 -->
+		<result property="cm_Witter" column="TC_MEMAIL"/><!--  -->
+	</resultMap>
+	<resultMap type="Comment_BW" id="Comment_BW">
+		<result property="cm_Code" column="TC_CODE"/>	<!-- 코멘트코드 -->
+		<result property="m_Menu" column="TC_TYPECODE"/><!-- 해당 글 코드 -->
+		<result property="cm_Since" column="TC_SINCE"/>	<!-- 작성일 -->
+		<result property="cm_Comment" column="TC_CONTENT"/><!-- 내용 -->
+		<result property="cm_Share" column="TC_CLTYPE"/><!-- 공개비공개 -->
+		<result property="cm_Witter" column="TC_MEMAIL"/><!--  -->
+	</resultMap>
+	<!-- 게시판 -->
+	<select id="boMyCommentList" resultMap="MyComment_BO" parameterType="MyComment_BO">
+	select * from MyComment where MC_TypeCode=#{m_Menu}
+	</select>	
+	<select id="boTeamCommentList" resultMap="TeamComment_BO" parameterType="TeamComment_BO">
+	select * from TeamComment where TC_TypeCode=#{m_Menu}
+	</select>
+	<insert id="boMyCommentInsert"  parameterType="MyComment_BO">
+		insert into MyComment(MC_TypeCode,MC_Memail,MC_CLTYPE,MC_CONTENT) values(#{m_Menu},#{cm_Witter},#{cm_Share},#{cm_Comment})
+	</insert>
+	<insert id="boTeamCommentInsert"  parameterType="TeamComment_BO">
+		insert into TeamComment(TC_TypeCode,TC_Memail,TC_CLTYPE,TC_CONTENT) values(#{m_Menu},#{cm_Witter},#{cm_Share},#{cm_Comment})	
+	</insert>
+	<delete id="boMyCommentDelete" parameterType="TeamComment_BO">
+		delete from MyComment where MC_CODE=#{cm_Code} and MC_MEMAIL=#{cm_Witter}
+	</delete>
+	<delete id="boTeamCommentDelete" parameterType="MyComment_BO">
+		delete from TeamComment where TC_CODE=#{cm_Code} and TC_MEMAIL=#{cm_Witter}
+	</delete>
+	
+	<select id="boMyComment" resultMap="MyComment_BO" parameterType="MyComment_BO">
+	select * from MyComment where MC_CODE=#{cm_Code} and MC_MEMAIL=#{cm_Witter}
+	</select>
+	
+	<select id="boTeamComment" resultMap="TeamComment_BO" parameterType="TeamComment_BO">
+		select * from TeamComment where TC_CODE=#{cm_Code} and TC_MEMAIL=#{cm_Witter}
+	</select>	    
+	<update id="boMyCommentUpdate"  parameterType="MyComment_BO">
+		update MyComment set MC_CLTYPE=#{cm_Share},MC_CONTENT=#{cm_Comment} where MC_CODE=#{cm_Code} and MC_MEMAIL=#{cm_Witter}
+	</update>
+	
+	<update id="boTeamCommentUpdate" parameterType="TeamComment_BO">
+		update TeamComment set TC_CLTYPE=#{cm_Share},TC_CONTENT=#{cm_Comment} where TC_CODE=#{cm_Code} and TC_MEMAIL=#{cm_Witter}
+	</update>	
+	<!-- 프로젝트 -->	
+	<select id="pjcommentSelect" resultMap="Comment_PJ" parameterType="Comment_PJ">
+		select * from TeamComment where TC_TypeCode=#{m_Menu}
+	</select>
+	<insert id="pjcommentInsert"  parameterType="Comment_PJ">
+		insert into TeamComment(TC_TypeCode,TC_Memail,TC_CLTYPE,TC_CONTENT) values(#{m_Menu},#{cm_Witter},#{cm_Share},#{cm_Comment})	
+	</insert>
+	
+	<delete id="pjcommentDelete" parameterType="Comment_PJ">
+		delete from TeamComment where TC_CODE=#{cm_Code} and TC_MEMAIL=#{cm_Witter}
+	</delete>
+		
+	<select id="pjComment" resultMap="Comment_PJ" parameterType="Comment_PJ">
+		select * from TeamComment where TC_CODE=#{cm_Code} and TC_MEMAIL=#{cm_Witter}
+	</select>	    
+		
+	<update id="pjcommentUpdate" parameterType="Comment_PJ">
+		update TeamComment set TC_CLTYPE=#{cm_Share},TC_CONTENT=#{cm_Comment} where TC_CODE=#{cm_Code} and TC_MEMAIL=#{cm_Witter}
+	</update>
+	<!-- 업무 -->	
+	<select id="bwcommentSelect" resultMap="Comment_BW" parameterType="Comment_BW">
+		select * from TeamComment where TC_TypeCode=#{m_Menu}
+	</select>
+	<insert id="bwcommentInsert"  parameterType="Comment_BW">
+		insert into TeamComment(TC_TypeCode,TC_Memail,TC_CLTYPE,TC_CONTENT) values(#{m_Menu},#{cm_Witter},#{cm_Share},#{cm_Comment})	
+	</insert>
+	
+	<delete id="bwcommentDelete" parameterType="Comment_BW">
+		delete from TeamComment where TC_CODE=#{cm_Code} and TC_MEMAIL=#{cm_Witter}
+	</delete>
+		
+	<select id="bwComment" resultMap="Comment_BW" parameterType="Comment_BW">
+		select * from TeamComment where TC_CODE=#{cm_Code} and TC_MEMAIL=#{cm_Witter}
+	</select>	    
+		
+	<update id="bwcommentUpdate" parameterType="Comment_BW">
+		update TeamComment set TC_CLTYPE=#{cm_Share},TC_CONTENT=#{cm_Comment} where TC_CODE=#{cm_Code} and TC_MEMAIL=#{cm_Witter}
+	</update>	          
+	        
+	                                                                                                                          
+</mapper>

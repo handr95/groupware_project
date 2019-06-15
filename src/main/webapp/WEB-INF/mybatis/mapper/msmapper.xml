@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="Messages">
+	<resultMap type="Message" id="Message"/>
+	<resultMap type="MessageR" id="MessageR">
+		<result property="msg_code" column="MSGR_code" />		
+		<result property="msg_getmemail" column="MSGR_getMemail" />
+		<result property="msg_sendmemail" column="MSGR_sendMemail" />
+		<result property="msg_content" column="MSGR_content" />
+		<result property="msg_time" column="MSGR_time" />
+	</resultMap>	
+	<resultMap type="AddressBean_MS" id="AddressBean_MS"/>
+	<resultMap type="Team_MS" id="Team_MS"/>
+
+
+	<select id="getTeamList" resultType="Team_MS" parameterType="Message">
+		SELECT T_CODE,T_NAME,TM_MEMAIL,TM_MNICKNAME FROM TEAMVIEW where T_MEAIL =#{msg_sendmemail}
+	</select>
+	<select id="getaddrList" resultType="AddressBean_MS" parameterType="Message">
+		select AB_MEMAIL,AB_MNICKNAME from ADDRBOOKVIEW where AB_MYMEMAIL=#{msg_sendmemail} and AB_CHECK='SF'
+	</select>
+	<insert id="messageInsert" parameterType="Message">
+		insert into MSG(MSG_GETMEMAIL,MSG_SENDMEMAIL,MSG_CONTENT) values(#{msg_getmemail},#{msg_sendmemail},#{msg_content})
+	</insert>
+	<insert id="messageResiveInsert" parameterType="Message">
+		insert into MSGR(MSGR_GETMEMAIL,MSGR_SENDMEMAIL,MSGR_CONTENT) values(#{msg_getmemail},#{msg_sendmemail},#{msg_content})
+	</insert>
+	<select id="getSendMessageList" resultType="Message" parameterType="Message">
+		select * from MSG where MSG_SENDMEMAIL =#{msg_sendmemail}
+	</select>
+	<select id="getReciveMessageList" resultMap="MessageR" parameterType="Message">
+		select * from MSGR where MSGR_GETMEMAIL =#{msg_sendmemail}
+	</select>
+	<delete id="messageDelete" parameterType="Message">
+		delete from MSG where MSG_CODE=#{msg_code} and MSG_sendMemail=#{msg_sendmemail}
+	</delete>
+	<delete id="messageResiveDelete" parameterType="Message">
+		delete from MSGR where MSGR_CODE=#{msg_code} and MSGR_getMemail=#{msg_getmemail}
+	</delete>
+</mapper>

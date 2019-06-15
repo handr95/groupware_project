@@ -1,0 +1,489 @@
+--등급 팀+개인
+create table grade(
+ GR_type nchar(4) not null,
+ GR_name nvarchar2(20) not null
+)tablespace DTDATA;
+
+
+ALTER TABLE grade ADD CONSTRAINT gr_type_pk  PRIMARY KEY (gr_type);
+ 
+ 
+ 
+create table member(
+ M_email nvarchar2(20) NOT NULL,
+ M_nickName nvarchar2(10) NOT NULL,
+ M_pwd nvarchar2(16) NOT NULL,
+ M_GRtype nchar(4) NOT NULL
+)tablespace DTDATA;
+ 
+alter table member add constraint M_email_pk primary key(M_email);
+alter table member add constraint M_grtype_fk FOREIGN key(M_GRtype) REFERENCES grade(GR_type); 
+
+ 
+create table login(
+ LI_Memail nvarchar2(20) not null,
+ LI_time date default sysdate
+)tablespace DTDATA;
+
+alter table login add CONSTRAINT LI_memail_pk PRIMARY key(LI_memail); 
+alter table login add constraint LI_memail_fk FOREIGN key(LI_memail) REFERENCES member(M_email); 
+
+
+
+create table UpdateInfo(
+ UI_code nchar(30) not null,
+ UI_Tcode nchar(30)not null,
+ UI_Memail nvarchar2(20)not null,
+ UI_CTtype nchar(4)not null,
+ UI_IUDtype nchar(4)not null,
+ UI_content  nclob not null,
+ UI_time date default sysdate
+)tablespace DTDATA;
+ALTER TABLE UpdateInfo ADD CONSTRAINT UI_code_pk  PRIMARY KEY (UI_code);
+alter table UpdateInfo add CONSTRAINT UI_Tcode_fk FOREIGN key(UI_tcode) REFERENCES team(T_code); 
+alter table UpdateInfo add CONSTRAINT UI_Memail_fk FOREIGN key(UI_memail)REFERENCES member(M_email);
+alter table UpdateInfo add CONSTRAINT UI_CTtype_fk FOREIGN key(UI_CTtype) REFERENCES Category(CT_type);
+alter table UpdateInfo add CONSTRAINT UI_IUDtype_fk FOREIGN key(UI_IUDtype) REFERENCES IUD(IUD_type);
+
+create table Category(
+  CT_type nchar(4) not null,
+  CT_name nvarchar2(20) not null
+)tablespace DTDATA;
+alter table Category add CONSTRAINT CT_type_pk PRIMARY key(CT_type);
+ 
+create table IUD(
+ IUD_type  nchar(4) not null,
+ IUD_name  nvarchar2(20) not null
+)tablespace DTDATA;
+ 
+ALTER TABLE IUD ADD CONSTRAINT IUD_type_pk  PRIMARY KEY (IUD_type);
+ 
+ 
+create table MyComment(
+ MC_code number(8) not null,/*시퀀스 미설정*/
+ MC_Memail nvarchar2(20) not null, 
+ MC_CTtype nchar(4) not null,
+ MC_since date default sysdate,
+ MC_content nclob not null, 
+ MC_CLType nchar(4)not null
+)tablespace DTDATA;
+
+ALTER TABLE MyComment ADD CONSTRAINT MC_code_pk  PRIMARY KEY (MC_code);
+alter table MyComment add CONSTRAINT MC_tcode_fk FOREIGN key(MC_tcode)REFERENCES team(t_code); 
+alter table MyComment add CONSTRAINT MC_CTtype_fk FOREIGN key(MC_CTtype) REFERENCES Category(CT_type);
+alter table MyComment add CONSTRAINT MC_CLType_fk FOREIGN key(MC_CLType) REFERENCES Classification(CL_type);
+alter table MyComment add CONSTRAINT MC_memail_fk FOREIGN key(MC_memail) REFERENCES member(m_email); 
+ 
+create table TeamComment(
+ TC_code number(8) not null,/*시퀀스 미설정*/
+ TC_Tcode nchar(30) not null, 
+ TC_CTtype nchar(4) not null,
+ TC_since date default sysdate,
+ TC_content nclob not null, 
+ TC_CLType nchar(4)not null,
+ TC_Memail nvarchar2(20) not null
+)tablespace DTDATA; 
+ 
+ 
+create table MySchedule(
+ MS_code nchar(30) not null,
+ MS_title nvarchar2(40) not null,
+ MS_start date not null, 
+ MS_limit date not null,
+ MS_loc nvarchar2(10),
+ MS_content nclob not null,
+ MS_CLtype nchar(4) not null,
+ MS_Memail nvarchar2(20) not null,
+ MS_Tcode nchar(30) not null
+)tablespace DTDATA;
+
+ 
+ 
+ALTER TABLE MySchedule ADD CONSTRAINT MS_code_pk  PRIMARY KEY (MS_code);
+
+
+ 
+create table MyReply(
+ MR_code number(8) not null,
+ MR_MCcode number(8) not null,
+ MR_CLtype nchar(4) not null,
+ MR_Memail nvarchar2(20) not null,
+ MR_since  date default sysdate,
+ MR_content nclob not null
+)tablespace DTDATA;
+ 
+ALTER TABLE MyReply ADD CONSTRAINT RE_code_pk  PRIMARY KEY (RE_code);
+
+create table TeamReply(
+ TR_code number(8) not null,
+ TR_TCcode number(8) not null,
+ TR_CLtype nchar(4) not null,
+ TR_tcode nchar(30) not null,
+ TR_since  date default sysdate,
+ TR_content nclob not null
+)tablespace DTDATA; 
+ 
+create table teamMember(
+ TM_tcode nchar(30) not null,/*pk,fk*/
+ TM_memail nvarchar2(20) not null/*pk,fk*/,
+ TM_GRtype nchar(4) not null /*default값 추후 선언*/
+)tablespace DTDATA;
+ 
+ 
+
+ 
+ 
+
+create table team(
+ T_code nchar(30) not null,
+ T_name nvarchar2(20) not null,
+ T_memail nvarchar2(20) not null,
+ T_since   date default sysdate 
+)tablespace DTDATA;
+ 
+ 
+ALTER TABLE team ADD CONSTRAINT T_code_pk  PRIMARY KEY (T_code);
+ 
+ 
+ 
+ 
+create table Projects(
+ PJ_code nchar(30) not null,
+ PJ_Tcode nchar(30) not null,
+ PJ_Memail nvarchar2(20) not null,
+ PJ_title nvarchar2(40) not null,
+ PJ_start date not null,
+ PJ_limit date not null,
+ PJ_content nclob,
+ PJ_CTtype  nchar(4) not null,
+ PJ_final  date
+)tablespace DTDATA;
+ 
+ALTER TABLE Projects ADD CONSTRAINT PJ_code_pk  PRIMARY KEY (PJ_code);
+ 
+ 
+create table SubWork(
+ SW_code	nchar(30) not null,
+ SW_Tcode	nchar(30) not null,
+ SW_Wocode	nchar(30) not null,
+ SW_CTtype	nchar(4) not null,
+ SW_Memail	nvarchar2(20) not null,
+ SW_title	nvarchar2(40) not null,
+ SW_start	date not null,
+ SW_limit	date not null,
+ SW_final	date,
+ SW_content	 nclob
+)tablespace DTDATA;
+ 
+ 
+ALTER TABLE SubWork ADD CONSTRAINT SW_code_pk  PRIMARY KEY (SW_code);
+ 
+ 
+ 
+create table works(
+ WO_code	nchar(30) not null,
+ WO_Tcode	nchar(30) not null,
+ WO_PJcode	nchar(30) not null,
+ WO_CTtype	nchar(4) not null,
+ WO_CLtype	nchar(4) not null,
+ WO_Memail	nvarchar2(20) not null,
+ WO_title	nvarchar2(40) not null,
+ WO_content	nclob,
+ WO_start	date not null,
+ WO_limit	date not null,
+ WO_final	date
+)tablespace DTDATA;
+ 
+ 
+ 
+ALTER TABLE works ADD CONSTRAINT WO_code_pk  PRIMARY KEY (WO_code);
+ 
+ 
+ 
+--분류 진행상태 + 공개+ 공지
+create table Classification(
+ CL_type	 nchar(4) not null,
+ CL_comment	nvarchar2(20) not null
+)tablespace DTDATA;
+ 
+ 
+ALTER TABLE Classification ADD CONSTRAINT CL_type_pk  PRIMARY KEY (CL_type);
+ 
+ 
+ 
+ 
+create table teamPostBoard(
+ TPB_code	 nchar(30) not null,
+ TPB_Memail	 nvarchar2(20) not null,
+ TPB_Tcode	 nchar(30) not null,
+ TPB_CLtype	 nchar(4) not null,
+ TPB_title	nvarchar2(40) not null,
+ TPB_content	 nclob 
+)tablespace DTDATA;
+ 
+ 
+ALTER TABLE teamPostBoard ADD CONSTRAINT TPB_code_pk  PRIMARY KEY (TPB_code);
+ 
+ 
+ 
+ 
+create table teamPost(
+ TP_code	 nchar(30) not null,
+ TP_TPBcode	nchar(30) not null,
+ TP_Memail	 nvarchar2(20) not null,
+ TP_CLtype	 nchar(4) not null,
+ TP_title	 nvarchar2(40) not null,
+ TP_content	 nclob,
+ TP_since	 date default sysdate 
+)tablespace DTDATA;
+ 
+ 
+ALTER TABLE teamPost ADD CONSTRAINT TP_code_pk  PRIMARY KEY (TP_code);
+ 
+ 
+ 
+ 
+ 
+create table MyPostBoard(
+ MPB_code	 nchar(30) not null,
+ MPB_Memail	 nvarchar2(20) not null,
+ MPB_title	 nvarchar2(40) not null,
+ MPB_content	 nclob
+)tablespace DTDATA;
+ 
+ALTER TABLE MyPostBoard ADD CONSTRAINT MPB_code_pk  PRIMARY KEY (MPB_code);
+ 
+ 
+ 
+create table MyPost(
+ MP_code	 nchar(30) not null,
+ MP_MPBcode	nchar(30) not null,
+ MP_title	 nvarchar2(40) not null,
+ MP_memail	 nvarchar2(20) not null,
+ MP_since	 date default sysdate ,
+ MP_content	 nclob  not null
+)tablespace DTDATA;
+ 
+ 
+ALTER TABLE MyPost ADD CONSTRAINT MP_code_pk  PRIMARY KEY (MP_code);
+ 
+ 
+ 
+create table TeamMemoHam(
+ TMH_code	 nchar(30) not null,
+ TMH_Memail	nvarchar2(20) not null,
+ TMH_CLtype	 nchar(4) not null,
+ TMH_Tcode	 nchar(30) not null,
+ TMH_title	 nvarchar2(40) not null,
+ TMH_content	 nclob
+)tablespace DTDATA;
+ 
+ 
+ALTER TABLE TeamMemoHam ADD CONSTRAINT TMH_code_pk  PRIMARY KEY (TMH_code);
+ 
+ 
+ 
+create table teamMemo(
+ TMM_code	 nchar(30) not null,
+ TMM_TMHcode	nchar(30) not null,
+ TMM_Memail	 nvarchar2(20) not null,
+ TMM_Tcode	 nchar(30) not null,
+ TMM_content	 nclob not null,
+ TMM_since	 date default sysdate 
+)tablespace DTDATA;
+ 
+ALTER TABLE teamMemo ADD CONSTRAINT TMM_code_pk  PRIMARY KEY (TMM_code);
+ 
+ 
+ 
+create table MyMemo(
+ MM_code	 nchar(30) not null,
+ MM_MMHcode	number(30) not null,
+ MM_Memail	 nvarchar2(20) not null,
+ MM_content	 nclob not null,
+ MM_since	 date default sysdate 
+)tablespace DTDATA;
+ 
+ 
+ALTER TABLE MyMemo ADD CONSTRAINT MM_code_pk  PRIMARY KEY (MM_code);
+ 
+ 
+ 
+ 
+ 
+create table MyMemoHam(
+ MMH_code	 nchar(30) not null,
+ MMH_Memail	 nvarchar2(20) not null,
+ MMH_title	 nvarchar2(40) not null,
+ MMH_content	 nclob
+)tablespace DTDATA;
+ 
+ 
+ALTER TABLE MyMemoHam ADD CONSTRAINT MMH_code_pk  PRIMARY KEY (MMH_code);
+ 
+ 
+ 
+ 
+ 
+create table hashtag(
+ HS_code	 nchar(30) not null,
+ HS_MPcode	nchar(30) not null,
+ HS_Memail	 nvarchar2(20) not null,
+ HS_content	 nvarchar2(20)
+)tablespace DTDATA;
+ 
+ALTER TABLE hashtag ADD CONSTRAINT HS_code_pk  PRIMARY KEY (HS_code);
+ 
+ 
+ 
+ 
+ 
+create table AddrBook(
+ AB_Memail	 nvarchar2(20) not null,/*pk,fk*/
+ AB_mnickname	nvarchar2(20) not null,
+ AB_check	 nchar(4) not null,
+ AB_lastday	 date default sysdate 
+)tablespace DTDATA;
+ 
+ 
+ 
+ 
+ 
+ 
+create table MyAdmin(
+ MA_code nchar(30) not null,/*pk,fk*/
+ MA_gmemail	nvarchar2(20) not null,/*pk,fk*/
+ MA_Tcode	 nchar(30) not null
+)tablespace DTDATA;
+ 
+ 
+ 
+ 
+ 
+create table MyDownload(
+ MD_code	 nchar(30) not null,
+ MD_Memail	nvarchar2(20) not null,
+ MD_CLtype	 nchar(4) not null,
+ MD_content	 nclob,
+ MD_since	 date default sysdate, 
+ MD_title	 nvarchar2(40)
+)tablespace DTDATA;
+ 
+ 
+ALTER TABLE MyDownload ADD CONSTRAINT MD_code_pk  PRIMARY KEY (MD_code);
+ 
+ 
+ 
+ 
+ 
+create table TeamDownload(
+ TD_code	 nchar(30) not null,
+ TD_Tcode	nchar(30) not null,
+ TD_CLtype	 nchar(4) not null,
+ TD_Memail	 nvarchar2(20) not null,
+ TD_since	 date default sysdate,
+ TD_title	 nvarchar2(40),
+ TD_content	 nclob
+)tablespace DTDATA;
+ 
+ 
+ALTER TABLE TeamDownload ADD CONSTRAINT TD_code_pk  PRIMARY KEY (TD_code);
+ 
+ 
+ 
+ 
+create table TeamAdmin(
+ TA_code	nchar(30) not null,/*pk,fk*/
+ TA_gmemail	nvarchar2(20) not null,/*pk,fk*/
+ TA_memail	nvarchar2(20) not null
+)tablespace DTDATA;
+ 
+ 
+create table TeamSchedule(
+ TS_code	nchar(30) not null,
+ TS_CLtype	nchar(4) not null,
+ TS_Memail	nvarchar2(20) not null,
+ TS_start	date not null,
+ TS_limit	date not null,
+ TS_loc	nvarchar2(40) not null,
+ TS_content	nclob
+)tablespace DTDATA;
+ 
+ 
+ALTER TABLE TeamSchedule ADD CONSTRAINT TS_code_pk  PRIMARY KEY (TS_code);
+ 
+ 
+ 
+ 
+ --대,소분류
+create table SubClass(
+ SC_small	nvarchar2(30) not null,
+ SC_big	nvarchar2(30) not null
+)tablespace DTDATA;
+ 
+ 
+ALTER TABLE SubClass ADD CONSTRAINT SC_small_pk  PRIMARY KEY (SC_small);
+ 
+ 
+ 
+ 
+ 
+create table FAQ(
+ FAQ_code	 nchar(30) not null,
+ FAQ_SCsmall	nvarchar2(30) not null,
+ FAQ_title	 nvarchar2(40) not null,
+ FAQ_content	 nclob not null
+)tablespace DTDATA;
+ 
+ 
+ALTER TABLE FAQ ADD CONSTRAINT FAQ_code_pk  PRIMARY KEY (FAQ_code);
+ 
+ 
+ 
+ 
+create table notice(
+ NT_code	 nchar(30) not null,
+ NT_title	nvarchar2(40) not null,
+ NT_content	 nclob not null,
+ NT_Memail	nvarchar2(20) not null,
+ NT_since	 date default sysdate,
+ NT_hits	 number default 0
+)tablespace DTDATA;
+ 
+ 
+ 
+ALTER TABLE notice ADD CONSTRAINT NT_code_pk  PRIMARY KEY (NT_code);
+ 
+ 
+ 
+ 
+ 
+create table errorReport(
+ ER_code	 nchar(30) not null,
+ ER_name	nvarchar2(20) not null,
+ ER_email	 nvarchar2(20) not null,
+ ER_title	 nvarchar2(40) not null,
+ ER_content	 nclob not null,
+ ER_hits	 number default 0
+)tablespace DTDATA;
+ 
+ 
+ALTER TABLE errorReport ADD CONSTRAINT ER_code_pk  PRIMARY KEY (ER_code);
+ 
+ 
+ 
+ 
+create table message(
+ MSG_code	 nchar(30) not null,
+ MSG_getMemail	nvarchar2(20) not null,
+ MSG_sendMemail	 nvarchar2(20) not null,
+ MSG_content	 nclob not null,
+ MSG_time	date default sysdate
+)tablespace DTDATA;
+ 
+ 
+ 
+ALTER TABLE message ADD CONSTRAINT MSG_code_pk  PRIMARY KEY (MSG_code);
+
+select * from tab;
+PURGE RECYCLEBIN;

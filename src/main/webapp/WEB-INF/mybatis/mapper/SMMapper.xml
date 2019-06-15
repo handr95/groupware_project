@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="Alarms">
+	<resultMap type="Alarm" id="Alarm">
+		<result property="al_MEMAIL" column="AL_MEMAIL" />
+		<result property="al_PJINSERT" column="AL_PJINSERT" />
+		<result property="al_PJCOMPLETE" column="AL_PJCOMPLETE" />
+		<result property="al_WOINSERT" column="AL_WOINSERT" />
+		<result property="al_WOUPDATE" column="AL_WOUPDATE" />
+		<result property="al_WOCOMPLETE" column="AL_WOCOMPLETE" />
+		<result property="al_WOREPORT" column="AL_WOREPORT" />
+		<result property="al_SWINSERT" column="AL_SWINSERT" />
+		<result property="al_SWUPDATE" column="AL_SWUPDATE" />
+		<result property="al_SWCOMPLETE" column="AL_SWCOMPLETE" />
+		<result property="al_SWREPORT" column="AL_SWREPORT" />
+		<result property="al_MSTSINSERT" column="AL_MSTSINSERT" />
+		<result property="al_MSTSUPDATE" column="AL_MSTSUPDATE" />
+	</resultMap>
+	<select id="getAlarm" resultMap="Alarm" parameterType="Alarm">
+		select * from ALARM where AL_MEMAIL = #{al_MEMAIL}
+	</select>
+	
+</mapper>

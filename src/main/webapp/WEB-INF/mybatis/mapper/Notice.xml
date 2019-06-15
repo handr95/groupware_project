@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Notice">
+	<resultMap type="Notice" id="Notice">
+		<result property="nt_Code" column="NT_code" />
+		<result property="nt_memail" column="NT_Memail" />
+		<result property="nt_Title" column="NT_title" />
+		<result property="nt_content" column="NT_content" />
+		<result property="nt_since" column="NT_since" />
+		<result property="nt_hits" column="NT_hits" />
+		<result property="nt_Cltype" column="NT_CLtype" />
+		<result property="nt_num" column="NT_num"></result>
+
+	</resultMap>
+	<select id="noticeform" resultMap="Notice" parameterType="Notice">
+		select * from NOTICEVIEW
+	</select>
+	
+	<select id="noticeDetail" resultMap="Notice" parameterType="Notice">
+		select * from NOTICEVIEW where "NT_code" = #{nt_Code}
+	</select>
+	
+	<insert id="noticeInsert" parameterType="Notice">
+		INSERT INTO NOTICE(NT_Memail,NT_title, NT_content, NT_CLtype) VALUES(#{nt_memail}, #{nt_Title}, #{nt_content}, #{nt_Cltype})
+	</insert>	
+	<update id="noticeUpdate" parameterType="Notice">
+		update notice set NT_title = #{nt_Title}, NT_content = #{nt_content}, NT_CLtype = #{nt_Cltype} where NT_code = #{nt_Code}
+	</update>                          
+	<delete id="noticeDelete" parameterType="Notice">
+		delete from NOTICE where NT_code=#{nt_Code}
+	</delete>
+</mapper>

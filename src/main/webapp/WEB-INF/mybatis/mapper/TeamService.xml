@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="TeamService">
+	
+	
+	<resultMap type="Member_TI" id="Member_TI">
+		<result property="m_Email" column="M_EMAIL" />
+		<result property="m_Nickname" column="M_NICKNAME" />
+		<result property="m_PWD" column="M_PWD" />
+		<result property="m_GRType" column="M_GRTYPE" />		
+		<result property="m_Name" column="M_NAME" />
+	</resultMap>
+	
+	
+	<resultMap type="Team_TI" id="Team_TI">
+		<result property="t_code" column="T_CODE" />
+		<result property="t_since" column="T_SINCE" />
+		<result property="t_memail" column="T_MEMAIL" />
+		<result property="t_name" column="T_NAME" />		 
+		<result property="tm_memail" column="TM_MEMAIL" />
+		<result property="tm_mnickname" column="TM_MNICKNAME" />
+		<result property="tm_name" column="TM_NAME" />
+		<result property="tm_grtype" column="TM_GRTYPE" />
+		<result property="tm_grname" column="TM_GRNAME" />	
+	</resultMap>
+	
+	
+	<resultMap type="TeamBoardPostMg" id="TeamBoardPostMg">		
+		<result property="bp_Code" column="TPB_CODE"/>
+		<result property="bp_Email" column="TPB_MEMAIL"/>
+		<result property="t_Code" column="TPB_TCODE"/>
+		<result property="bp_Share" column="TPB_CLTYPE"/>
+		<result property="bp_Title" column="TPB_TITLE"/>
+		<result property="bp_Content" column="TPB_CONTENT"/>
+		<result property="bp_Since" column="TPB_SINCE"/>
+	</resultMap>
+		
+	<resultMap type="TeamBoardPostView" id="TeamBoardPostView">		
+		<result property="bp_Share" column="TA_SHARE"/>
+		<result property="bp_Code" column="TPB_CODE"/>
+		<result property="bp_Title" column="TPB_TITLE"/>
+		<result property="t_Code" column="T_CODE"/>
+		<result property="bp_Content" column="TPB_CONTENT"/>
+		<result property="bp_Email" column="TPB_MEMAIL"/>
+		<result property="bp_Since" column="TPB_Since"/>
+	</resultMap>
+	
+	<resultMap type="TeamMemoHamMg" id="TeamMemoHamMg">
+		<result property="tmh_CODE" column="TMH_CODE"/>
+		<result property="tmh_TCODE" column="TMH_TCODE"/>
+		<result property="tmh_MANAGER" column="TMH_MANAGER"/>
+		<result property="tmh_TITLE" column="TMH_TITLE"/>
+		<result property="tmh_CONTENT" column="TMH_CONTENT"/>
+		<result property="tmh_SINCE" column="TMH_SINCE"/>
+		<result property="ta_SHARE" column="TA_SHARE"/>
+		<result property="bp_Email" column="TMH_MEMAIL"/>
+	</resultMap>
+	
+	<resultMap type="TeamMemoHamView" id="TeamMemoHamView">
+		<result property="tmh_CODE" column="TMH_CODE"/>
+		<result property="tmh_TCODE" column="TMH_TCODE"/>
+		<result property="tmh_MANAGER" column="TMH_MANAGER"/>
+		<result property="tmh_TITLE" column="TMH_TITLE"/>
+		<result property="tmh_CONTENT" column="TMH_CONTENT"/>
+		<result property="tmh_SINCE" column="TMH_SINCE"/>
+		<result property="ta_SHARE" column="TA_SHARE"/>
+	</resultMap>
+
+	<resultMap type="MyBoardPostMg" id="MyBoardPostMg">		
+		<result property="bp_Code" column="MPB_CODE"/>
+		<result property="bp_Email" column="MPB_MEMAIL"/>
+		<result property="t_Code" column="MPB_TCODE"/>
+		<result property="bp_Share" column="MPB_CLTYPE"/>
+		<result property="bp_Title" column="MPB_TITLE"/>
+		<result property="bp_Content" column="MPB_CONTENT"/>
+		<result property="bp_Since" column="MPB_SINCE"/>
+		<result property="bp_Cltype" column="MPB_CLTYPE"/>
+		<result property="bp_Cltype" column="CL_COMMENT"/>
+	</resultMap>
+
+	<resultMap type="MyBoardPostView" id="MyBoardPostView">		
+		<result property="bp_Share" column="MA_SHARE"/>
+		<result property="bp_Code" column="MPB_CODE"/>
+		<result property="bp_Title" column="MPB_TITLE"/>
+		<result property="t_Code" column="T_CODE"/>
+		<result property="bp_Content" column="MPB_CONTENT"/>
+		<result property="bp_Email" column="MPB_MEMAIL"/>
+		<result property="bp_Since" column="MPB_Since"/>
+	</resultMap>
+		
+	<resultMap type="TeamAdmin" id="TeamAdmin">		
+		<result property="bp_Code" column="TA_CODE"/>
+		<result property="bp_Email" column="TA_MEMAIL"/>
+		<result property="t_Code" column="TA_TCODE"/>
+	</resultMap>
+	
+	<resultMap type="MyMemoHamMg" id="MyMemoHamMg">
+		<result property="tmh_CODE" column="MMH_CODE"/>
+		<result property="tmh_TCODE" column="MMH_TCODE"/>
+		<result property="tmh_MANAGER" column="MMH_MANAGER"/>
+		<result property="tmh_TITLE" column="MMH_TITLE"/>
+		<result property="tmh_CONTENT" column="MMH_CONTENT"/>
+		<result property="tmh_SINCE" column="MMH_SINCE"/>
+		<result property="ta_SHARE" column="TA_SHARE"/>
+		<result property="bp_Email" column="MMH_MEMAIL"/>
+		<result property="tmh_Cltype" column="MMH_CLTYPE"/>
+	</resultMap>
+	
+	<resultMap type="MyMemoHamView" id="MyMemoHamView">
+		<result property="tmh_CODE" column="MMH_CODE"/>
+		<result property="tmh_TCODE" column="MMH_TCODE"/>
+		<result property="tmh_MANAGER" column="MMH_MANAGER"/>
+		<result property="tmh_TITLE" column="MMH_TITLE"/>
+		<result property="tmh_CONTENT" column="MMH_CONTENT"/>
+		<result property="tmh_SINCE" column="MMH_SINCE"/>
+		<result property="ta_SHARE" column="TA_SHARE"/>
+		<result property="tmh_Cltype" column="CL_COMMENT"/>
+	</resultMap>
+	
+	
+	
+	<select id="myMemoHamList" resultMap="MyMemoHamMg" parameterType="MyMemoHamMg">
+		SELECT * FROM MYMEMOHAM
+	</select>
+	
+	<select id="myMemohamShare" resultMap="MyMemoHamView" parameterType="MyMemoHamView">
+		select * from MYMEMOHAMVIEW where MMH_CODE =#{tmh_CODE}
+	</select>
+	
+	<insert id="myMemohamInsert" parameterType="MyMemoHamMg">
+		insert into MYMEMOHAM (mmh_memail, mmh_title, mmh_content, Mmh_CLTYPE) values('${bp_Email}', '${tmh_TITLE}', '${tmh_CONTENT}', '${tmh_Cltype}')
+ 	</insert>
+ 	
+ 	<select id="myMemoHamListDetail" resultMap="MyMemoHamMg" parameterType="MyMemoHamMg">
+		SELECT * FROM MYMEMOHAM where MMH_CODE = '${tmh_CODE}'
+	</select>
+	
+	<update id="myMemoHamUpdate" parameterType="MyMemoHamMg">
+		update MYMEMOHAM set mmh_title = '${tmh_TITLE}' , mmh_content = '${tmh_CONTENT}', Mmh_CLTYPE = '${tmh_Cltype}'
+ 		where MMH_CODE =#{tmh_CODE}
+ 	</update>
+	
+		
+
+	<select id="teamboardpostlist" resultMap="TeamBoardPostView" parameterType="TeamBoardPostView">
+		select * from teampostboard where tpb_tcode = '${t_Code}'
+	</select>
+
+	<select id="myboardpostlist" resultMap="MyBoardPostMg" parameterType="MyBoardPostMg">
+		SELECT * FROM myBoardPostView
+	</select>
+
+	<select id="teammemohamlist" resultMap="TeamMemoHamMg" parameterType="TeamMemoHamMg">
+		select * from TEAMMEMOHAM
+	</select>
+	
+
+
+	<select id="teammemohamshare" resultMap="TeamMemoHamView" parameterType="TeamMemoHamView">
+		select * from TEAMMEMOHAMVIEW where TMH_CODE =#{tmh_CODE}
+	</select>
+
+	<select id="teamboardpostshare2" resultMap="TeamBoardPostView" parameterType="TeamBoardPostView">
+		select * from teampostboardview where tpb_code = #{bp_Code}
+	</select>
+
+	<select id="memohamShare2" resultMap="TeamMemoHamMg" parameterType="TeamMemoHamMg">
+      	SELECT * FROM TEAMMEMOHAM where TMH_CODE = '${tmh_CODE}'
+    </select>
+	
+	<select id="teammemohammember" resultMap="Team_TI" parameterType="Team_TI">
+		 SELECT * FROM TEAMVIEW where t_code='${t_code}'
+	</select>	
+	
+	<select id="teammemohamtcode" resultType="String" parameterType="Team_TI">
+      	SELECT TMH_CODE FROM TEAMMEMOHAM where TMH_MEMAIL=#{tmh_MANAGER} and TMH_TITLE=#{tmh_TITLE} and TMH_CONTENT like #{tmh_CONTENT}
+	</select>
+	
+	<select id="teamboardpostmember" resultMap="Team_TI" parameterType="Team_TI">
+		SELECT * FROM TEAMVIEW where t_code='${t_code}'
+	</select>
+	
+	<select id="boardpostUpdateform" resultMap="TeamBoardPostMg" parameterType="TeamBoardPostMg">
+		select * from teampostboard where tpb_code = '${bp_Code}'
+	</select>
+
+
+	
+	<insert id="teammemohamInsert" parameterType="TeamMemoHamMg">
+      insert into TEAMMEMOHAM (TMH_TCODE, TMH_MEMAIL, TMH_TITLE, TMH_CONTENT) values(#{tmh_TCODE}, '${tmh_MANAGER}', #{tmh_TITLE}, #{tmh_CONTENT})
+    </insert>
+    
+ 	 <insert id="teammemohammemberinsert" parameterType="Team_TI">
+      insert into teamadmin (TA_CODE, TA_MEMAIL, TA_TCODE) values('${tmh_CODE}', '${tmh_MANAGER}', '${tmh_TCODE}')
+   	 </insert>
+   	 
+   	 <update id="memoUpdate" parameterType="TeamMemoHamMg">
+      update TEAMMEMOHAM set TMH_TCODE = '${tmh_TCODE}' , TMH_MEMAIL = '${tmh_MANAGER}' , TMH_TITLE = '${tmh_TITLE}' , TMH_CONTENT = '${tmh_CONTENT}' where TMH_CODE='${tmh_CODE}'
+     </update>
+    
+     <delete id="memohammemberDelete" parameterType="Team_TI">
+      DELETE FROM teamadmin WHERE TA_CODE = #{tmh_CODE}
+  	 </delete>
+	
+	<insert id="teamboardpostInsert" parameterType="TeamBoardPostMg">
+		insert into teampostboard (tpb_tcode, tpb_memail, tpb_title, tpb_content) values('${t_Code}', '${bp_Email}', '${bp_Title}', '${bp_Content}')
+ 	</insert>
+ 	
+ 	
+		
+	<update id="boardPostChange" parameterType="TeamBoardPostMg">
+		update teampostboard set tpb_memail='${bp_Email}' where tpb_code='${bp_Code}'
+	</update>
+	
+	<update id="memohamChange" parameterType="TeamMemoHamMg">
+		update TEAMMEMOHAM set TMH_MEMAIL = '${tmh_MANAGER}' where TMH_CODE='${tmh_CODE}'
+	</update>
+ 	
+ 	
+ 	<insert id="teamBoardLineInsert" parameterType="TeamBoardPostMg">
+		insert into teampostboard (tpb_tcode, tpb_memail, tpb_title, tpb_content) values('${t_Code}', '--------------', '--------------', '--------------')
+ 	</insert>
+ 	
+ 	
+ 	<insert id="myboardpostInsert" parameterType="TeamBoardPostMg">
+		insert into mypostboard (mpb_memail, mpb_title, mpb_content, MPB_CLTYPE) values('${bp_Email}', '${bp_Title}', '${bp_Content}', '${bp_Share}')
+ 	</insert>
+	
+	<insert id="teamboardpostmemberinsert" parameterType="Team_TI">
+		insert into teamadmin (TA_CODE, TA_MEMAIL, TA_TCODE) values('${bp_Code}', '${bp_Email}', '${t_Code}')
+ 	</insert>
+ 	
+ 	<select id="teamboardpostcode" resultType="String" parameterType="Team_TI">
+		SELECT tpb_code FROM teampostboard where tpb_memail='${bp_Email}' and tpb_title='${bp_Title}' and tpb_content like '${bp_Content}'
+	</select>
+	
+	
+	<select id="myboardpostlistDetail" resultMap="MyBoardPostMg" parameterType="MyBoardPostMg">
+		SELECT * FROM myBoardPostView where mpb_code='${bp_Code}'
+	</select>
+	
+	
+	<update id="myboardpostUpdate" parameterType="MyBoardPostMg">
+		update mypostboard set mpb_title = '${bp_Title}' , mpb_content = '${bp_Content}', MPB_CLTYPE = '${bp_Share}'
+ 		where mpb_code='${bp_Code}'
+ 	</update>
+ 	
+ 	
+ 	<update id="teamboardpostUpdate" parameterType="TeamBoardPostMg">
+		update teampostboard set tpb_tcode = '${t_Code}' , tpb_memail = '${bp_Email}' , tpb_title = '${bp_Title}' , tpb_content = '${bp_Content}'
+ 		where tpb_code='${bp_Code}'
+ 	</update>
+	
+	<delete id="teamboardpostmemberDelete" parameterType="Team_TI">
+		DELETE FROM teamadmin WHERE ta_code = '${bp_Code}'
+	</delete>
+	
+	
+	<update id="teamboardpostmemberUpdate" parameterType="Team_TI">
+		update teamadmin set TA_MEMAIL = '${bp_Email}', TA_TCODE = '${t_Code}'
+		where ta_code = '${bp_Code}'
+ 	</update>
+
+
+	<select id="teamList" resultMap="Team_TI" parameterType="Team_TI">
+		select * from teamview where TM_MEMAIL= #{tm_memail}
+	</select>
+	
+	
+	<select id="teammemberCount" resultType="Integer" parameterType="Team_TI">
+		select count(*) from teamview where T_CODE=#{t_code}
+	</select>
+	
+	<select id="teammember" resultMap="Team_TI" parameterType="Team_TI">
+		select * from teamview where T_CODE=#{t_code}
+	</select>
+	
+	<select id="teamDetail" resultMap="Team_TI" parameterType="Team_TI">
+		select * from team where T_CODE='${t_code}'
+	</select>
+
+	<update id="teamInfoUpdate" parameterType="Team_TI">
+		update team set t_name = '${t_name}' where T_CODE='${t_Code}'
+	</update>
+
+
+	<select id="boardPostChangeMember" resultMap="Team_TI" parameterType="Team_TI">
+		select * from teamview where T_CODE=#{t_code}
+	</select>
+	
+</mapper>
+

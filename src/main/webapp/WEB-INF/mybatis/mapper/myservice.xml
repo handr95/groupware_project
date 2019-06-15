@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Myservice">
+	<resultMap type="Member_TI" id="Member_TI">
+		<result property="m_Email" column="M_EMAIL" />
+		<result property="m_Nickname" column="M_NICKNAME" />
+		<result property="m_PWD" column="M_PWD" />
+		<result property="m_GRType" column="M_GRTYPE" />
+		<result property="m_Name" column="M_NAME" />
+	</resultMap>
+	<resultMap type="Team_TI" id="Team_TI">
+		<result property="t_code" column="T_CODE" />
+		<result property="t_memail" column="T_MEMAIL" />
+		<result property="t_name" column="T_NAME" />
+		<result property="tm_memail" column="TM_MEMAIL" />
+		<result property="tm_mnickname" column="TM_MNICKNAME" />
+		<result property="tm_grtype" column="TM_GRTYPE" />
+		<result property="tm_grname" column="TM_GRNAME" />
+	</resultMap>
+
+	<resultMap type="FAQ" id="FAQ">	
+		<result property="bsc_code" column="BSC_CODE" />
+		<result property="bsc_name" column="BSC_NAME" />
+		<result property="ssc_code" column="SSC_CODE" />
+		<result property="ssc_name" column="SSC_NAME" />
+		<result property="faq_code" column="FAQ_CODE" />
+		<result property="faq_ssccode" column="FAQ_SSCCODE" />		
+		<result property="faq_title" column="FAQ_TITLE" />
+		<result property="faq_content" column="FAQ_CONTENT" />	
+	</resultMap>
+
+	<select id="myInfo" resultMap="Member_TI" parameterType="Member_TI">
+		select *
+		from member where m_email=#{m_Email}
+	</select>
+
+	<update id="updateNick" parameterType="Member_TI">
+		update member set
+		M_NICKNAME = #{m_Nickname} where m_email=#{m_Email}
+	</update>
+
+	<update id="updatePwd" parameterType="Member_TI">
+		update member set M_PWD = #
+		{m_PWD} where m_email=#{m_Email}
+	</update>
+
+	<delete id="memberDrop" parameterType="Member_TI">
+		delete from member where
+		m_email = #{m_Email}
+	</delete>
+
+	<insert id="teamInsert" parameterType="Team_TI">
+		insert into
+		team(T_MEMAIL,T_NAME) values (#{t_memail},#{t_name})
+	</insert>
+
+	<select id="getTeamCode" resultType="String" parameterType="Member_TI">
+		select T_CODE from team where T_MEMAIL=#{t_memail} and
+		T_NAME=#{t_name}
+	</select>
+
+
+	<insert id="teamMemberInsert" parameterType="Team_TI">
+		insert into
+		TEAMMEMBER(TM_TCODE,TM_MEMAIL,TM_GRTYPE) values
+		(#{t_code},#{tm_memail},#{tm_grtype})
+	</insert>
+
+	<select id="questSelect" resultType="FAQ" parameterType="FAQ">
+		select * from subclassview
+	</select>
+
+	<select id="questdSelect" resultType="FAQ" parameterType="FAQ">
+		select	* from faqinfoview
+	</select>
+	<select id="questdSelectOne" resultType="FAQ" parameterType="FAQ">
+		select	* from faqinfoview where FAQ_CODE = #{faq_code}
+	</select>
+
+	<insert id="questInsert" parameterType="FAQ">
+		insert into FAQ(FAQ_SSCCODE,FAQ_TITLE,FAQ_CONTENT)
+		 values (#{ssc_code},#{faq_title},#{faq_content})
+	</insert>
+	<update id="questUpdate" parameterType="FAQ">		
+		UPDATE faq SET FAQ_CONTENT=#{faq_content},faq_title=#{faq_title} where FAQ_CODE=#{faq_code}		
+	</update>
+	<delete id="questDelete" parameterType="FAQ">
+		delete from faq where FAQ_CODE=#{faq_code}
+	</delete>
+</mapper>
+

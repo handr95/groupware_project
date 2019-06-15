@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="SWorks">
+
+	<resultMap type="SWork" id="SWork">
+		<result property="sw_Code" column="SW_CODE"/>
+		<result property="t_Code" column="SW_TCODE"/>
+		<result property="bw_Code" column="SW_WOCODE"/>
+		<result property="sw_Email" column="SW_MEMAIL"/>
+		<result property="sw_Progress" column="SW_CTTYPE"/>
+		<result property="sw_Title" column="SW_TITLE"/>
+		<result property="sw_Content" column="SW_CONTENT"/>
+		<result property="sw_Start" column="SW_START"/>
+		<result property="sw_Limit" column="SW_LIMIT"/>
+		<result property="sw_Final" column="SW_FINAL"/>
+	</resultMap>
+
+	<select id="swkselect" resultMap="SWork" parameterType="SWork">
+		select * from SUBWORK where SW_WOCODE = '${bw_Code}'
+	</select>
+	
+	<insert id="sWorkInsert" parameterType="SWork">
+		insert into SUBWORK(SW_CTTYPE, SW_TITLE, SW_MEMAIL, SW_START, SW_LIMIT, SW_WOCODE, SW_TCODE)
+		values('SB  ', #{sw_Title}, #{sw_Email}, #{sw_Start}, #{sw_Limit}, #{bw_Code}, #{t_Code})
+	</insert>	     
+	
+	<delete id="sWorkDelete" parameterType="SWork">
+		delete from SUBWORK where SW_CODE = #{sw_Code}
+	
+	</delete>       
+	
+	                                                                              
+</mapper>

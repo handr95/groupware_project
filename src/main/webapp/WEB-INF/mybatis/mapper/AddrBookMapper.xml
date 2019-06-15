@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="AddrBook">
+
+	<resultMap type="AddrBook" id="AddrBook">
+		<result property="ab_MyMemail" column="AB_MYMEMAIL"/>
+		<result property="ab_MEMAIL" column="AB_MEMAIL"/>
+		<result property="ab_CHECK" column="AB_CHECK"/>
+		<result property="ab_LTIME" column="LI_TIME"/>
+		<result property="cl_Comment" column="CL_COMMENT"/>
+		<result property="ab_MNICKNAME" column="AB_MNICKNAME"/>
+	</resultMap>
+	
+	<resultMap type="Member_AD" id="Member_AD">
+		<result property="m_EMAIL" column="M_EMAIL"/>
+		<result property="m_NICKNAME" column="M_NICKNAME"/>
+		<result property="m_PWD" column="M_PWD"/>
+		<result property="m_GRTYPE" column="M_GRTYPE"/>
+	
+	</resultMap>
+
+	<select id="getAddressList" resultMap="AddrBook" parameterType="AddrBook">
+		select * from ADDRBOOKVIEW where ab_MyMemail = #{ab_MyMemail} 
+	</select>
+	<select id="addressSearchList" resultMap="Member_AD" parameterType="AddrBook">
+		select M_EMAIL, M_NICKNAME from MEMBER where M_EMAIL = #{ab_MEMAIL}
+	</select>
+	<insert id="addressMyInsert" parameterType="AddrBook">
+		INSERT INTO AB(AB_MYMEMAIL,AB_MEMAIL,AB_CHECK) VALUES(#{ab_MyMemail},#{ab_MEMAIL},'SU')
+	</insert>
+	<insert id="addressYouInsert" parameterType="AddrBook">
+		INSERT INTO AB(AB_MYMEMAIL,AB_MEMAIL,AB_CHECK) VALUES(#{ab_MEMAIL},#{ab_MyMemail},'DF')
+	</insert>
+	<delete id="addressDelete" parameterType="AddrBook">
+		DELETE FROM ADDRBOOK where AB_MYMEMAIL = #{ab_MyMemail} and AB_MEMAIL = #{ab_MEMAIL}
+	</delete>
+	<update id="addressMyAllow" parameterType="AddrBook">
+		UPDATE ADDRBOOK	set AB_CHECK = 'SF' where AB_MYMEMAIL = #{ab_MyMemail} and AB_MEMAIL = #{ab_MEMAIL}
+	</update>
+	<update id="addressYouAllow" parameterType="AddrBook">
+		UPDATE ADDRBOOK	set AB_CHECK = 'SF' where AB_MYMEMAIL = #{ab_MEMAIL} and AB_MEMAIL = #{ab_MyMemail}
+	</update>
+	<update id="addressMyRefuse" parameterType="AddrBook">
+		UPDATE ADDRBOOK	set AB_CHECK = 'NF' where AB_MYMEMAIL = #{ab_MyMemail} and AB_MEMAIL = #{ab_MEMAIL}
+	</update>
+	<update id="addressYouRefuse" parameterType="AddrBook">
+		UPDATE ADDRBOOK	set AB_CHECK = 'NF' where AB_MYMEMAIL = #{ab_MEMAIL} and AB_MEMAIL = #{ab_MyMemail}
+	</update>
+	                                                                                                                                 
+</mapper>

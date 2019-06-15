@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 일단 몰라도 되니까 하위 몽땅 다 타이핑 해 -->
+<!DOCTYPE configuration PUBLIC "-mybatis.org//STD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- 값들 자동완성 안됨 직접 타이핑 해야 됨. -->
+<configuration>
+	<settings>
+		<setting name="useGeneratedKeys" value="true" /><!-- 기본값이 fales -->
+		<setting name="defaultExecutorType" value="REUSE" /><!-- 한번 쓴거 
+			버리냐 유지하느냐 -->
+	</settings>
+	<typeAliases>
+		<typeAlias alias="Hash" type="com.dt.A.THMH.Hash" />
+		<typeAlias alias="Project" type="com.dt.B.PJ.Project" />
+		<typeAlias alias="Team_MS" type="com.dt.H.MS.Team" />
+		<typeAlias alias="Member" type="com.dt.L.MI.Member" />
+		<typeAlias alias="PJBWork" type="com.dt.B.PJ.BWork" />
+		<typeAlias alias="BWork" type="com.dt.C.WK.BWork" />
+		<typeAlias alias="SWork" type="com.dt.C.WK.SWork" />
+		<typeAlias alias="MyBoard" type="com.dt.E.BO.Board" />
+		<typeAlias alias="MyBoardPost" type="com.dt.E.BO.BoardPost" />
+		<typeAlias alias="TeamBoard" type="com.dt.E.BO.Board" />
+		<typeAlias alias="TeamBoardPost" type="com.dt.E.BO.BoardPost" />
+		<typeAlias alias="teamBoardDetail" type="com.dt.E.BO.BoardDetail" />
+		<typeAlias alias="MyBoardDetail" type="com.dt.E.BO.BoardDetail" />
+		<typeAlias alias="NoticeBoard" type="com.dt.A.THMH.Board" />
+		<typeAlias alias="Comment" type="com.dt.B.PJ.Comment" />		
+		<typeAlias alias="AddrBook" type="com.dt.I.AD.AddressBean" />
+		<typeAlias alias="Member_AD" type="com.dt.I.AD.Member" />
+		<typeAlias alias="Member_TI" type="com.dt.N.TI.Member" />
+		<typeAlias alias="Team_TI" type="com.dt.N.TI.Team" />
+		<typeAlias alias="TeamAdmin" type="com.dt.N.TI.Team" />
+		<typeAlias alias="Comment_PJ" type="com.dt.B.PJ.Comment" />
+		<typeAlias alias="Comment_BW" type="com.dt.C.WK.Comment" />		
+		<typeAlias alias="MyComment_BO" type="com.dt.E.BO.Comment" />	
+		<typeAlias alias="TeamComment_BO" type="com.dt.E.BO.Comment" />
+		<typeAlias alias="TeamMemo" type="com.dt.F.ME.MemoBean" />
+		<typeAlias alias="MyMemo" type="com.dt.F.ME.MemoBean" />
+		<typeAlias alias="Message" type="com.dt.H.MS.Message" />
+		<typeAlias alias="MessageR" type="com.dt.H.MS.Message" />
+		<typeAlias alias="SM_Member" type="com.dt.M.SM.SM_Member" />
+		<typeAlias alias="ErrorReport" type="com.dt.J.GC.ErrorReport" />
+		<typeAlias alias="FAQ" type="com.dt.J.GC.Quest" />
+		<typeAlias alias="teamBoardDetail" type="com.dt.E.BO.BoardDetail" />
+		<typeAlias alias="MyBoardDetail" type="com.dt.E.BO.BoardDetail" />
+		<typeAlias alias="NoticeBoard" type="com.dt.A.THMH.Board" />
+		<typeAlias alias="Comment" type="com.dt.B.PJ.Comment" />
+		<typeAlias alias="Alarm" type="com.dt.M.SM.Alarms" />
+		<typeAlias alias="Notice" type="com.dt.J.GC.Notice" />
+		<typeAlias alias="TeamMemoHamMg" type="com.dt.N.TI.MemoHam" />
+		<typeAlias alias="TeamMemoHamView" type="com.dt.N.TI.MemoHam" />
+		<typeAlias alias="TeamBoardPostMg" type="com.dt.N.TI.BoardPost" />
+		<typeAlias alias="TeamBoardPostView" type="com.dt.N.TI.BoardPost" />
+		<typeAlias alias="TeamAdmin" type="com.dt.N.TI.Team" />
+		<typeAlias alias="AddressBean_MS" type="com.dt.H.MS.AddressBean" />
+		<typeAlias alias="Member_M" type="com.dt.K.M.Member" />
+		<typeAlias alias="MyBoardPostMg" type="com.dt.L.MI.BoardPost" />
+		<typeAlias alias="MyBoardPostView" type="com.dt.L.MI.BoardPost" />
+		<typeAlias alias="DataComm" type="com.dt.D.DC.DataComm" />
+		<typeAlias alias="TDataComm" type="com.dt.D.DC.DataComm" />		
+      <typeAlias alias="MyComment_BO" type="com.dt.E.BO.Comment" /> 
+      <typeAlias alias="TeamComment_BO" type="com.dt.E.BO.Comment" /> 
+      <typeAlias alias="Comment_PJ" type="com.dt.B.PJ.Comment" /> 
+	  <typeAlias alias="MyMemoHamMg" type="com.dt.L.MI.MyMemoHam"/>
+      <typeAlias alias="MyMemoHamView" type="com.dt.L.MI.MyMemoHam"/>      
+      <typeAlias alias="PJComment" type="com.dt.B.PJ.Comment"/>
+      <typeAlias alias="BdHash" type="com.dt.E.BO.Board"/>      
+      <typeAlias alias="MyHashDetail" type="com.dt.A.THMH.Board"/>
+      <typeAlias alias="DataComm" type="com.dt.D.DC.DataComm" />
+      <typeAlias alias="TDataComm" type="com.dt.D.DC.DataComm" />
+      <typeAlias alias="EMAILCONFIRM" type="com.dt.K.M.Member"/>
+	  <typeAlias alias="MyCalendar" type="com.dt.G.CA.Calendar" />
+      <typeAlias alias="Calendar" type="com.dt.G.CA.Calendar" />
+      <typeAlias alias="MHCalendar" type="com.dt.A.THMH.Calendar" />
+      
+	</typeAliases>
+</configuration>

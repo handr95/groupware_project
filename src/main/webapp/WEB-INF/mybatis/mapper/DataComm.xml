@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="DataComm">
+	<resultMap type="DataComm" id="DataComm">
+		<result property="d_Code" column="MD_CODE" />
+		<result property="m_Email" column="MD_MEMAIL" />
+		<result property="c_Class" column="MD_CLTYPE" />
+		<result property="d_Title" column="MD_TITLE" />
+		<result property="d_Content" column="MD_CONTENT" />
+		<result property="d_Since" column="MD_SINCE" />
+		<result property="d_Path" column="MD_ROUTE" />
+		<result property="d_Data" column="MD_FILENAME" />
+	</resultMap>
+
+	<resultMap type="TDataComm" id="TDataComm">
+		<result property="td_Code" column="TD_CODE" />
+		<result property="td_TCode" column="TD_TCODE" />
+		<result property="td_MEmail" column="TD_TEMAIL" />
+		<result property="td_ClType" column="TD_CLTYPE" />
+		<result property="td_Title" column="TD_TITLE" />
+		<result property="td_Content" column="TD_CONTENT" />
+		<result property="td_Since" column="TD_SINCE" />
+		<result property="td_Route" column="TD_ROUTE" />
+		<result property="td_FileName" column="TD_FILENAME" />
+	</resultMap>
+
+	<select id="dataCommList" resultMap="DataComm" parameterType="DataComm">
+		select * from MYDOWNLOAD
+	</select>
+	<select id="dataDetail" resultMap="DataComm" parameterType="DataComm">
+		select * from MYDOWNLOAD where MD_CODE= '${d_Code}'
+	</select>
+
+	<insert id="dataAddAfter" parameterType="DataComm">
+		Insert into
+		MYDOWNLOAD(MD_MEMAIL,MD_CLTYPE,MD_TITLE,MD_CONTENT,MD_ROUTE,MD_FILENAME)
+		VALUES(#{m_Email},#{c_Class},#{d_Title},#{d_Content},#{d_Path},#{d_Data})
+	</insert>
+
+	<update id="dataUpdate" parameterType="DataComm">
+		Update MYDOWNLOAD set
+		MD_TITLE=#{d_Title},MD_CONTENT=#{d_Content}, MD_CLTYPE=#{c_Class}, MD_FILENAME=#{d_Data}
+		where MD_CODE= '${d_Code}'
+	</update>
+
+</mapper>
+		
+		

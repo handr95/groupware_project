@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MyPage">
+	<resultMap type="Member" id="Member">
+		<result property="m_Email" column="M_EMAIL" />
+		<result property="m_Nickname" column="M_NICKNAME" />
+		<result property="m_PWD" column="M_PWD" />
+		<result property="m_GRType" column="M_GRTYPE" />		
+		<result property="m_Name" column="M_NAME" />
+	</resultMap>
+
+
+	<select id="myInfo" resultMap="Member" parameterType="Member">
+		select * from member where m_email=#{m_Email}
+	</select>
+
+	<update id="updateNick" parameterType="Member">
+		update member set M_NICKNAME = #{m_Nickname} where m_email=#{m_Email}
+	</update>
+
+	<update id="UpdatePwd" parameterType="Member">
+		update member set M_PWD = #{m_PWD} where m_email=#{m_Email}
+	</update>
+
+	<delete id="memberDrop" parameterType="Member">
+		delete from member where m_email = #{m_Email}
+	</delete>
+	
+	<select id="isPWD" resultType="Integer" parameterType="Member">
+		select count(*) from member where m_pwd = #{m_PWD} and m_email = #{m_Email}
+	</select>
+	
+	
+	
+
+</mapper>
+

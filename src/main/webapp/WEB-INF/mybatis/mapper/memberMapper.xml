@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="Members">
+	<resultMap type="Member_M" id="Member_M"/>		
+	
+	<resultMap type="EMAILCONFIRM" id="EMAILCONFIRM">
+		<result property="m_Email" column="EC_EMAIL"/>
+		<result property="em_code" column="EC_CODE"/>
+		<result property="em_confirm" column="EC_CONFIRM"/>
+	</resultMap>
+	
+	
+	<select id="findPWD" resultType="Integer" parameterType="Member_M">
+		select count(*) from memberinfoView where "M_email"=#{m_Email} and "M_nickName"=#{m_PWD} and "M_name"=#{m_Name}
+	</select>					
+	
+	<delete id="confirmDel" parameterType="EMAILCONFIRM">
+		DELETE FROM emailconfirm where EC_EMAIL=#{m_Email}
+	</delete>
+	
+	
+	
+	<select id="logincheck" resultType="Integer" parameterType="EMAILCONFIRM">
+		select count(*) from emailconfirm where EC_EMAIL='${m_Email}' and EC_CONFIRM = 'Y'
+	</select>
+	
+	<insert id="emNumberinsert" parameterType="EMAILCONFIRM">
+		insert into emailconfirm(EC_EMAIL, EC_CODE) 
+		values('${m_Email}',#{em_code})
+	</insert>
+			
+	
+	<select id="isId" resultType="Integer" parameterType="Member_M">
+		select count(*) from memberinfoView where "M_email"=#{m_Email}
+	</select>  
+	<select id="memberinfo" resultType="Member_M" parameterType="Member_M">
+		select * from memberinfoView where "M_email"=#{m_Email}
+	</select>
+	<select id="logIn" resultType="Integer" parameterType="Member_M">
+		select count(*) from memberinfoView where "M_email"=#{m_Email} and "M_pwd"=#{m_PWD}
+	</select>
+	<select id="isNickName" resultType="Integer" parameterType="Member_M">
+		select count(*) from memberinfoView where "M_nickName"=#{m_Nickname}
+	</select>
+	
+	<insert id="join" parameterType="Member_M">
+		insert into member(M_email,M_nickName,M_pwd,M_GRtype,M_name) values(#{m_Email},#{m_Nickname},#{m_PWD},#{m_GRType},#{m_Name})
+	</insert>   
+             
+    <update id="UpdateNick" parameterType="Member_M">
+		update member set
+		M_NICKNAME = #{m_Nickname} where m_email=#{m_Email}
+	</update>     
+	
+	<update id="emNumberupdate" parameterType="EMAILCONFIRM">
+		update emailconfirm set
+		EC_CONFIRM = 'Y' where EC_EMAIL='${m_Email}' and EC_CODE='${em_code}'
+	</update>   
+	
+	<delete id="emNumberDelete" parameterType="EMAILCONFIRM">
+		Delete from emailconfirm where EC_EMAIL='${m_Email}'
+	</delete>
+	
+	<update id="alterPWD" parameterType="Member_M">
+		update member set m_PWD = #{m_PWD} where m_Name = '${m_Name}' and m_email='${m_Email}' and M_nickName = '${m_Nickname}'
+	</update>  
+	
+	<select	id="alterPWDpw" resultType="String" parameterType="Member_M">
+		select m_PWD from member where m_Name = '${m_Name}' and m_email='${m_Email}' and M_nickName = '${m_Nickname}'
+	</select>
+	
+	<select id = "ismember" resultType="Integer" parameterType="Member_M">
+		select count(*) from member where m_Name = '${m_Name}' and m_email='${m_Email}' and M_nickName = '${m_Nickname}'
+	</select>
+                                                                                
+ 
+	<insert id="loginInsert" parameterType="Member_M">
+		insert into LI(LI_MEMAIL) values(#{m_Email})   
+	</insert>   
+                                                                             
+
+</mapper>

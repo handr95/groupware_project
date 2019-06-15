@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="BWorks">
+
+	<resultMap type="BWork" id="BWork">
+		<result property="bw_Code" column="WO_CODE"/>
+		<result property="t_Code" column="WO_TCODE"/>
+		<result property="pj_Code" column="WO_PJCODE"/>
+		<result property="bw_Share" column="WO_CLTYPE"/>
+		<result property="bw_Progress" column="WO_CTTYPE"/>
+		<result property="bw_Email" column="WO_MEMAIL"/>
+		<result property="bw_Owner" column="WO_OWNER"/>
+		<result property="bw_Title" column="WO_TITLE"/>
+		<result property="bw_Content" column="WO_CONTENT"/>
+		<result property="bw_Start" column="WO_START"/>
+		<result property="bw_Limit" column="WO_LIMIT"/>
+		<result property="bw_Final" column="WO_FINAL"/>
+	</resultMap>
+	
+	<resultMap type="PJBWork" id="PJBWork">
+		<result property="bw_Code" column="WO_CODE"/>
+		<result property="t_Code" column="WO_TCODE"/>
+		<result property="pj_Code" column="WO_PJCODE"/>
+		<result property="bw_Share" column="WO_CLTYPE"/>
+		<result property="bw_Progress" column="WO_CTTYPE"/>
+		<result property="bw_Email" column="WO_MEMAIL"/>
+		<result property="bw_Owner" column="WO_OWNER"/>
+		<result property="bw_Title" column="WO_TITLE"/>
+		<result property="bw_Content" column="WO_CONTENT"/>
+		<result property="bw_Start" column="WO_START"/>
+		<result property="bw_Limit" column="WO_LIMIT"/>
+		<result property="bw_Final" column="WO_FINAL"/>
+	</resultMap>
+	
+
+
+	<select id="pjBWselect" resultMap="PJBWork" parameterType="BWork">
+		select * from WORKS where WO_PJCODE = '${pj_Code}'
+	</select>
+	
+	<select id="wkList" resultMap="BWork" parameterType="BWork">
+		select * from WORKS where WO_TCODE=#{t_Code}
+	</select>
+	
+	<select id="wkCList" resultMap="BWork" parameterType="BWork">
+		select * from WORKS where WO_CTTYPE = 'SB  '
+	</select>
+		
+	<select id="wkselect" resultMap="BWork" parameterType="BWork">
+		select * from WORKS where WO_CODE = '${bw_Code}'
+	</select>
+	
+	<insert id="wkinsert" parameterType="BWork">
+		INSERT INTO WORKS(WO_TITLE, WO_OWNER, WO_START, WO_LIMIT, WO_CONTENT, WO_MEMAIL, WO_TCODE, WO_CTTYPE, WO_CLTYPE, WO_PJCODE) 
+		VALUES(#{bw_Title}, #{bw_Owner}, #{bw_Start}, #{bw_Limit}, #{bw_Content}, #{bw_Email},  #{t_Code}, #{bw_Share}, 'PG  ', #{pj_Code})
+	</insert>
+	
+	<update id="wkCinsert" parameterType="BWork">
+		update works set WO_PJCODE = #{pj_Code}, WO_CTTYPE = 'PG  '  where WO_CODE =#{bw_Code}
+	</update>
+	
+	<update id="UnConnect" parameterType="BWork">
+		update works set WO_PJCODE = '', WO_CTTYPE = 'SB  ' where WO_CODE =#{bw_Code}
+	</update>	
+	
+	<update id="wkupdate" parameterType="BWork">
+		update works set WO_TITLE = #{bw_Title}, WO_OWNER = #{bw_Owner}, 
+		WO_CTTYPE = #{bw_Share}, WO_START = #{bw_Start}, WO_LIMIT = #{bw_Limit},
+		 WO_CONTENT = #{bw_Content} where WO_CODE = #{bw_Code}
+	</update>
+	                                                                                                                                  
+</mapper>

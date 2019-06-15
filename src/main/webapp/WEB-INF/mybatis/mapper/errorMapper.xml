@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="errors">
+	<resultMap type="ErrorReport" id="ErrorReport">		
+		<result property="er_num" column="ER_NUM" />
+		<result property="er_code" column="ER_CODE" />
+		<result property="er_name" column="ER_NAME" />
+		<result property="er_email" column="ER_EMAIL" />
+		<result property="er_title" column="ER_TITLE" />
+		<result property="er_content" column="ER_CONTENT" />
+		<result property="er_since" column="ER_SINCE" />
+		<result property="er_hits" column="ER_HITS" />
+		<result property="er_reply" column="er_reply" />
+		</resultMap>	
+	
+	<insert id="errorReportInsert" parameterType="ErrorReport">
+		insert into errorReport(ER_name,ER_email,ER_title,ER_content) values(#{er_name},#{er_email},#{er_title},#{er_content})
+	</insert>  
+
+	<select id="errorReportListselect" resultMap="ErrorReport" parameterType="ErrorReport">
+		select * from errorReportView		
+	</select>
+	
+	<select id="errorReportselect" resultMap="ErrorReport" parameterType="ErrorReport">
+		select * from errorReportView where "ER_num"=#{er_num}		
+	</select> 
+	                                
+	<select id="errorReportDetail" resultMap="ErrorReport" parameterType="ErrorReport">
+		select * from errorReportView where "ER_code"='${er_code}'
+	</select>     
+	
+	<update id="errorReportReply" parameterType="ErrorReport">
+		update errorReport set
+		er_reply = #{er_reply} where ER_code=#{er_code}
+	</update>     
+	
+	                                              
+</mapper>

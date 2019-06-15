@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="Projects">
+
+	<resultMap type="Project" id="Project">
+		<result property="pj_Code" column="PJ_CODE"/>
+		<result property="pj_Owner" column="PJ_OWNER"/>
+		<result property="pj_Email" column="PJ_MEMAIL"/>
+		<result property="t_Code" column="PJ_TCODE"/>
+		<result property="pj_Progress" column="PJ_CTTYPE"/>
+		<result property="pj_Title" column="PJ_TITLE"/>
+		<result property="pj_Content" column="PJ_CONTENT"/>
+		<result property="pj_Start" column="PJ_START"/>
+		<result property="pj_Limit" column="PJ_LIMIT"/>
+		<result property="pj_Final" column="PJ_FINAL"/>
+	</resultMap>
+		
+	
+	<select id="allpjselect" resultMap="Project" parameterType="Project">
+		select PJ_CTTYPE,PJ_OWNER, PJ_MEMAIL, PJ_TITLE, PJ_START, PJ_LIMIT, PJ_CODE, PJ_TCODE from PROJECTS	where PJ_TCODE=#{t_Code}
+	</select>
+	
+	<select id="pjSelect" resultMap="Project" parameterType="Project">
+		select * from PROJECTS where PJ_CODE = '${pj_Code}'
+	</select>
+	
+	<insert id="pjInsert" parameterType="Project">
+		INSERT INTO PROJECTS(PJ_TITLE, PJ_OWNER, PJ_START, PJ_LIMIT, PJ_CONTENT, PJ_MEMAIL, PJ_TCODE) 
+		VALUES('${pj_Title}', '${pj_Owner}', '${pj_Start}', '${pj_Limit}', '${pj_Content}', #{pj_Email},  #{t_Code})
+	</insert>
+	
+	<update id="pjupdate" parameterType="Project">
+		update projects set PJ_TITLE = '${pj_Title}', PJ_OWNER= '${pj_Owner}', 
+		PJ_START = '${pj_Start}', PJ_LIMIT = '${pj_Limit}', PJ_CONTENT = '${pj_Content}' where PJ_CODE = '${pj_Code}'
+	</update>
+	
+	<delete id ="pjdelete" parameterType="Project">
+		delete from projects where PJ_CODE =#{pj_Code} and PJ_MEMAIL =#{pj_Email}
+	</delete>
+	                                                                                                                                      
+</mapper>
+

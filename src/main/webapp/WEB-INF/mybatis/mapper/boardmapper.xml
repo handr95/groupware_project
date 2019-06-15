@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="Boards">
+	<resultMap type="MyBoardPost" id="MyBoardPost">
+		<result property="bp_Code" column="MPB_CODE"/>
+		<result property="bp_Email" column="MPB_MEMAIL"/>
+		<result property="bp_Title" column="MPB_TITLE"/>
+		<result property="bp_Content" column="MPB_CONTENT"/>
+	</resultMap>	
+	<resultMap type="MyBoard" id="MyBoard">
+		<result property="bd_Code" column="MP_CODE"/>
+		<result property="bp_Code" column="MP_MPBCODE"/>
+		<result property="bd_Title" column="MP_TITLE"/>
+		<result property="bd_Email" column="MP_MEMAIL"/>
+		<result property="bd_Since" column="MP_SINCE"/>
+		<result property="bd_Content" column="MP_CONTENT"/>
+		<result property="bd_Share" column="MP_CLTYPE"/> 
+	</resultMap>	
+	<resultMap type="TeamBoardPost" id="TeamBoardPost">		
+		<result property="bp_Code" column="TPB_CODE"/>
+		<result property="bp_Email" column="TPB_MEMAIL"/>
+		<result property="t_Code" column="TPB_TCODE"/>
+		<result property="bp_Share" column="TPB_CLTYPE"/>
+		<result property="bp_Title" column="TPB_TITLE"/>
+		<result property="bp_Content" column="TPB_CONTENT"/>
+	</resultMap>	
+	<resultMap type="TeamBoard" id="TeamBoard">	
+		<result property="bd_Code" column="TP_CODE"/>
+		<result property="bp_Code" column="TP_TPBCODE"/>
+		<result property="bd_Email" column="TP_MEMAIL"/>
+		<result property="bd_Share" column="TP_CLTYPE"/>
+		<result property="bd_Title" column="TP_TITLE"/>
+		<result property="bd_Content" column="TP_CONTENT"/>
+		<result property="bd_Since" column="TP_SINCE"/>
+	</resultMap>
+	<resultMap type="MyBoardDetail" id="MyBoardDetail">
+		<result property="mpb_Owner" column="MPB_MEMAIL"/>
+		<result property="mpb_Title" column="MPB_TITLE"/>
+		<result property="mp_Title" column="MP_TITLE"/>
+		<result property="mp_Code" column="MP_CODE"/>
+		<result property="mp_Writter" column="MP_MEMAIL"/>
+		<result property="mp_Since" column="MP_SINCE"/>
+		<result property="mp_Connent" column="MP_CONTENT"/>
+		<result property="hd_Title" column="HS_TITLE"/>
+	</resultMap>
+	<resultMap type="TeamBoardDetail" id="TeamBoardDetail">
+		<result property="mpb_Owner" column="TPB_TCODE"/>
+		<result property="mpb_Title" column="TPB_TITLE"/>
+		<result property="mpb_Code" column="TPB_CODE"/>
+		<result property="mp_Title" column="TP_TITLE"/>
+		<result property="mp_Code" column="TP_CODE"/>
+		<result property="mp_Writter" column="TP_WRITTER"/>
+		<result property="mp_Since" column="TP_SINCE"/>
+		<result property="mp_Connent" column="TP_CONTENT"/>
+	</resultMap>
+	
+	
+	<resultMap type="NoticeBoard" id="NoticeBoard">	
+		<result property="mp_Code" column="TP_CODE"/>
+		<result property="mpb_Code" column="TP_TPBCODE"/>
+		<result property="mp_Memail" column="TP_MEMAIL"/>
+		<result property="mp_Cltype" column="TP_CLTYPE"/>
+		<result property="mp_Title" column="TP_TITLE"/>
+		<result property="mp_Content" column="TP_CONTENT"/>
+		<result property="mp_Since" column="TP_SINCE"/>
+	</resultMap>
+	
+	<resultMap type="BdHash" id="BdHash">	
+		<result property="bd_Code" column="HS_TITLE"/>
+		<result property="ms_Content2" column="HS_MPCODE"/>
+	</resultMap>
+	
+	<resultMap type="MyHashDetail" id="MyHashDetail">
+      <result property="mpb_Memail" column="MPB_OWNER"/>
+      <result property="mpb_Title" column="MPB_TITLE"/>
+      <result property="mp_Title" column="MP_TITLE"/>
+      <result property="mp_Code" column="MP_CODE"/>
+      <result property="mp_Writter" column="MP_WRITTER"/>
+      <result property="mp_Since" column="MP_SINCE"/>
+      <result property="mp_Content" column="MP_CONTENT"/>
+      <result property="hs_Title" column="HS_TITLE"/>
+   </resultMap>
+	
+	
+	<select id="findHashBoard" resultMap="MyHashDetail" parameterType="MyHashDetail">
+		select * from myallboardview where MP_CODE = #{mp_Code}
+	</select>
+	
+	
+	<select id="findHash" resultMap="MyHashDetail" parameterType="MyHashDetail">
+		select * from myallboardview where HS_TITLE= '${hs_Title}' and MPB_CLTYPE='SP'
+	</select>
+	
+	
+	<insert id="HashInsert" parameterType="BdHash">
+		INSERT INTO HASHTAG(HS_MPCODE, HS_TITLE) 
+		VALUES('${bd_Code}', '${ms_Content2}')
+	</insert>
+	
+	<select id="myboardCode" resultType="String" parameterType="MyBoard">
+		select mp_code from MyPOST
+		where mp_memail='${bd_Email}' and mp_title='${bd_Title}' and mp_content like '${bd_Content}' 
+	</select>
+	
+	
+	<select id="myboardlist" resultMap="MyBoard" parameterType="MyBoard">
+		select * from MYPOST where MP_MPBCODE='${bp_Code}'
+	</select>
+	
+	<select id="myboardListall" resultMap="MyBoard" parameterType="MyBoard">
+		select * from MYPOST where MP_MPBCODE=any(select MPB_CODE from MYPOSTBOARD where MPB_MEMAIL =#{bd_Email})
+	</select>
+	
+	<select id="myboardpostlist" resultMap="MyBoardPost" parameterType="MyBoardPost">
+		select * from MYPOSTBOARD where MPB_MEMAIL=#{bp_Email}
+	</select>
+	
+	<select id="myboardDetail" resultMap="MyBoardDetail" parameterType="MyBoardDetail">
+		select * from MyAllBoardView where MP_CODE= '${mp_Code}'
+	</select>
+	
+	<insert id="myboardInsert" parameterType="MyBoard">
+		INSERT INTO MYPOST(MP_MPBCODE, MP_MEMAIL,  MP_TITLE, MP_CONTENT, MP_CLTYPE) 
+		VALUES(#{bp_Code}, #{bd_Email}, #{bd_Title}, #{bd_Content}, #{bd_Share})
+	</insert>
+	
+	
+	<update id="myboardUpdate" parameterType="MyBoard">
+		update MYPOST set MP_MPBCODE='${bp_Code}',
+		MP_TITLE = '${bd_Title}',
+		MP_CONTENT = '${bd_Content}',
+		MP_CLTYPE = '${bd_Share}'
+		where MP_CODE= '${bd_Code}'
+	</update>
+	
+	
+	<delete id="hashDelete"  parameterType="MyBoard">
+		delete from hashtag where HS_MPCODE= '${bd_Code}'
+	</delete>
+	
+	<select id="teamboardlist" resultMap="TeamBoard" parameterType="TeamBoard">
+		select * from TEAMPOST where TP_TPBCODE='${bp_Code}'
+	</select>
+	
+	<select id="teamboardlistall" resultMap="TeamBoard" parameterType="TeamBoard">
+		select * from TEAMPOST where TP_TPBCODE=any(select TPB_CODE from TEAMPOSTboard where TPB_TCODE=#{bd_Email})
+	</select>
+	
+	<select id="teamboardpostlist" resultMap="TeamBoardPost" parameterType="TeamBoardPost">
+		select * from TEAMPOSTBOARD where TPB_TCODE=#{t_Code}
+	</select>
+	
+	<select id="teamboardDetail" resultMap="TeamBoardDetail" parameterType="TeamBoardDetail">
+		select * from TeamBoardView where TP_CODE= '${mp_Code}'
+	</select>
+	
+	<insert id="teamboardInsert" parameterType="TeamBoard">
+		INSERT INTO TEAMPOST(TP_TPBCODE, TP_MEMAIL, TP_CLTYPE, TP_TITLE, TP_CONTENT) 
+		VALUES('${bp_Code}', #{bd_Email}, '${bd_Share}', '${bd_Title}', '${bd_Content}')
+	</insert>
+	
+	<update id="teamboardUpdate" parameterType="TeamBoard">
+		update TEAMPOST set TP_TPBCODE='${bp_Code}', TP_TITLE='${bd_Title}', TP_Content='${bd_Content}', TP_CLTYPE= '${bd_Share}' where TP_CODE= '${bd_Code}'
+	</update>
+	
+	<select id="notice" resultMap="NoticeBoard" parameterType="NoticeBoard">
+		select * from TEAMPOST WHERE TP_CLTYPE = 'SN'
+	</select>
+	
+</mapper>

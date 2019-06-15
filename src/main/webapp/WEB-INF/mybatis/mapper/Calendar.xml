@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+<mapper namespace="Calendars">
+	<resultMap type="MyCalendar" id="MyCalendar">
+		<result property="c_Code" column="MS_CODE" />
+		<result property="c_Title" column="MS_TITLE" />
+		<result property="c_Start" column="MS_START" />
+		<result property="c_Limit" column="MS_LIMIT" />
+		<result property="c_Loc" column="MS_LOC" />
+		<result property="c_Comment" column="MS_CONTENT" />
+		<result property="c_Class" column="MS_CLTYPE" />
+		<result property="c_Email" column="MS_MEMAIL" />
+	</resultMap>
+	<resultMap type="Calendar" id="Calendar">
+		<result property="c_Code" column="TS_CODE" />
+		<result property="c_Title" column="TS_TITLE" />
+		<result property="c_Start" column="TS_START" />
+		<result property="c_Limit" column="TS_LIMIT" />
+		<result property="c_Loc" column="TS_LOC" />
+		<result property="c_Comment" column="TS_CONTENT" />
+		<result property="c_Class" column="TS_CLTYPE" />
+		<result property="c_Email" column="TS_MEMAIL" />
+		<result property="t_Code" column="TS_TCODE" />
+		
+	</resultMap>
+	
+	<resultMap type="MHCalendar" id="MHCalendar">
+		<result property="c_Code" column="MS_CODE" />
+		<result property="c_Title" column="MS_TITLE" />
+		<result property="c_Start" column="MS_START" />
+		<result property="c_Limit" column="MS_LIMIT" />
+		<result property="c_Loc" column="MS_LOC" />
+		<result property="c_Comment" column="MS_CONTENT" />
+		<result property="c_Class" column="MS_CLTYPE" />
+		<result property="c_Email" column="MS_MEMAIL" />
+		
+	</resultMap>
+
+	
+
+
+	<select id="calList" resultMap="MyCalendar" parameterType="MyCalendar">
+		select * from MYSCHEDULE
+	</select>
+	
+	<select id="currentCal" resultMap="MyCalendar" parameterType="MyCalendar">
+		select * from MYSCHEDULE where #{current} between MS_START and MS_LIMIT
+	</select>
+	
+	<select id="currentUpdatesel" resultMap="MyCalendar" parameterType="MyCalendar">
+		select * from MYSCHEDULE where MS_CODE = '${c_Code}'
+	</select>
+	
+	<update id="currentUpdate" parameterType="MyCalendar">
+		update MYSCHEDULE set MS_TITLE = #{c_Title} , MS_CONTENT = #{c_Comment}, MS_START = #{c_Start}, MS_LIMIT = #{c_Limit}, MS_LOC = #{c_Loc}
+ 		where MS_CODE = '${c_Code}'
+	</update>
+	
+	<insert id="currentInsert"  parameterType="MyCalendar">
+		insert into MySchedule(MS_MEMAIL,MS_CLTYPE,MS_title,MS_start,MS_limit,MS_loc,MS_content)
+		 values('${c_Email}','FP', '${c_Title}', '${c_Start}', '${c_Limit}', '${c_Loc}', '${c_Comment}')
+	</insert>
+	
+	<select id="allcal" resultMap="MyCalendar" parameterType="MyCalendar">
+		select * from MYSCHEDULE where MS_MEMAIL = '${t_Code}'
+	</select>
+	<select id="allcal2" resultMap="MyCalendar" parameterType="MyCalendar">
+		select * from TEAMSCHEDULE where TS_TCODE = #{t_Code}
+	</select>
+	
+	<select id="todayCal" resultMap="MHCalendar" parameterType="MHCalendar">
+		select * from MYSCHEDULE where MS_MEMAIL = '${c_Email}' and #{current} between MS_START and MS_LIMIT
+	</select>
+	
+	
+</mapper>
+		
+		

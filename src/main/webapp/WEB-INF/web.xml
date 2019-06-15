@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+
+	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+	</context-param>
+	
+	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- Processes application requests -->
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+		
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	<!-- JNDI :: DBCP -->
+	<!-- 설정법 순서2. -->	
+	<resource-ref><!-- 외부에 정의되어져 있는 리소스 참조하려고(context) -->
+		<description>Oracle-DBCP</description><!-- 아무거나 상관없어 -->
+		<res-ref-name>JSIZZ</res-ref-name><!-- conext에서 name -->
+										  <!-- 리소스가 여러개 있을수 있음. 그중 맞는거 쓰면 됨. -->
+		<res-type>javax.sql.DataSource</res-type><!-- 리소스의 type과 일치해야함. -->
+		<res-auth>Container</res-auth><!-- 인증방식 -->
+	</resource-ref>
+	
+	<!-- ChaacterSet :: UTF-8 -->
+	<!-- 한글깨짐 방지 start-->	
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+		<init-param>
+			<!-- forceEncodin
+			g : 입력한 인코딩으로 강제 셋팅을 할것인가 말것인지에
+								대한 인자값이다. 이거 없으면 90%는 된다고 함 -->
+        	<param-name>forceEncoding</param-name>
+        	<param-value>true</param-value>
+    	</init-param>
+	</filter>
+	<filter-mapping><!-- mapping : 어느것에대해서 -->
+		<filter-name>encodingFilter</filter-name><!-- 어디로 -->
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 한글깨짐 방지 end-->
+
+</web-app>
